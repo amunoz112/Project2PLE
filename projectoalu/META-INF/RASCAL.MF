@@ -1,6 +1,4 @@
 Manifest-Version: 0.0.1
-Main-Function: main
-Main-Module: main
-Project-Name: projecto2
+Project-Name: projectoalu
 Source: src/main/rascal
 Require-Libraries: |lib://dsl-project|

@@ -1,28 +1,20 @@
 module Syntax
 
-// Layout definition - whitespace and comments
 layout Layout = WhitespaceAndComment* !>> [\ \t\n\r#];
 lexical WhitespaceAndComment = [\ \t\n\r] | @category="Comment" "#" ![\n]* $;
 
-// Start symbol
 start syntax Module = aluModule: Variables? vars (Function | Data)* elements;
 
-// Variables definition
 syntax Variables = variables: Identifier head ("," Identifier tail)* ;
 
-// Function definition
 syntax Function = function: Assignment? assign "function" ("(" Variables params ")")? "do" Body body "end" Identifier name;
 
-// Data definition
 syntax Data = aluData: Assignment? assign "data" "with" Variables vars DataBody dataBody "end" Identifier name;
 
-// Assignment
 syntax Assignment = assignment: Identifier id "=";
 
-// Body - contains statements
 syntax Body = body: Statement* statements;
 
-// Statement types
 syntax Statement = expressionStmt: Expression expr
                  | variablesStmt: Variables vars
                  | rangeStmt: Range range
@@ -32,26 +24,19 @@ syntax Statement = expressionStmt: Expression expr
                  | condStmt: "cond" Expression expr "do" PatternBody patterns "end"
                  | invocationStmt: Invocation invocation;
 
-// Range
 syntax Range = range: Assignment? assign "from" Principal from "to" Principal to;
 
-// Iterator
 syntax Iterator = iterator: Assignment assign "iterator" "(" Variables inputVars ")" "yielding" "(" Variables outputVars ")";
 
-// Loop
 syntax Loop = loop: "for" Identifier id Range range "do" Body body;
 
-// DataBody
 syntax DataBody = constructorBody: Constructor constructor
                 | functionBody: Function function;
 
-// Constructor
 syntax Constructor = constructor: Identifier id "=" "struct" "(" Variables vars ")";
 
-// PatternBody
 syntax PatternBody = pattern: Expression condition "-\>" Expression result;
 
-// Expression with precedence and associativity
 syntax Expression = bracket "(" Expression ")"
                   | bracket "[" Expression "]"
                   > principal: Principal principal
@@ -77,11 +62,9 @@ syntax Expression = bracket "(" Expression ")"
                   > right arrow: Expression lhs "-\>" Expression rhs
                   > right colon: Expression lhs ":" Expression rhs;
 
-// Invocation
 syntax Invocation = dollarInvoke: Identifier id "$" "(" Variables args ")"
                   | dotInvoke: Identifier object "." Identifier method "(" Variables args ")";
 
-// Principal (atomic values)
 syntax Principal = boolTrue: "true"
                  | boolFalse: "false"
                  | charLit: CharLiteral char
@@ -89,13 +72,11 @@ syntax Principal = boolTrue: "true"
                  | floatLit: FloatLiteral float
                  | identifier: Identifier id;
 
-// Lexical tokens
-lexical Identifier = ([a-z][a-z]*) \ Reserved;
-lexical CharLiteral = [a-z];
+lexical Identifier = ([a-z][a-z]*) ;
+lexical CharLiteral = "\'" [a-z] "\'";
 lexical IntLiteral = [0-9]+;
 lexical FloatLiteral = [0-9]+ "." [0-9]+;
 
-// Reserved keywords
 keyword Reserved = "true" | "false" | "and" | "or" | "neg" 
                  | "cond" | "do" | "data" | "end" | "for" | "from" | "then"
                  | "function" | "else" | "if" | "in" | "iterator" | "sequence"

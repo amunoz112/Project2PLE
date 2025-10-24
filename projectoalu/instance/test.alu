@@ -1,5 +1,4 @@
-x, y, z
-
+x,y,z  
 add = function (a, b) do
     a + b
 end add
@@ -29,7 +28,7 @@ sign = function (n) do
 end sign
 
 point = data with x, y
-    Point = struct (x, y)
+    point = struct (x, y)
 end point
 
 calculate = function (a, b) do
@@ -38,6 +37,6 @@ calculate = function (a, b) do
     result
 end calculate
 
-isValid = function (x) do
+isvalid = function (x) do
     x > 0 and x < 100
-end isValid
+end isvalid

@@ -6,40 +6,33 @@ import ParseTree;
 import Implode;
 import IO;
 
-// Parse a Module from a location (file) - Returns concrete syntax tree
 public start[Module] parseModule(loc file) {
     return parse(#start[Module], file);
 }
 
-// Parse a Module from a string with source location - Returns concrete syntax tree
 public start[Module] parseModule(str input, loc source) {
     return parse(#start[Module], input, source);
 }
 
-// Parse a Module from a string (default location) - Returns concrete syntax tree
 public start[Module] parseModule(str input) {
     return parse(#start[Module], input);
 }
 
-// Parse and convert to AST in one step - from file
 public AST::Module parseModuleToAST(loc file) {
     start[Module] cst = parseModule(file);
     return implode(cst);
 }
 
-// Parse and convert to AST in one step - from string with location
 public AST::Module parseModuleToAST(str input, loc source) {
     start[Module] cst = parseModule(input, source);
     return implode(cst);
 }
 
-// Parse and convert to AST in one step - from string
 public AST::Module parseModuleToAST(str input) {
     start[Module] cst = parseModule(input);
     return implode(cst);
 }
 
-// Helper function to test parsing - prints the AST
 public void testParse(loc file) {
     println("Parsing file: <file>");
     try {
@@ -57,7 +50,6 @@ public void testParse(loc file) {
     }
 }
 
-// Helper function to test parsing from string
 public void testParseString(str input) {
     println("Parsing input...");
     try {

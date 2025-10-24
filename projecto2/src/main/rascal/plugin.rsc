@@ -3,22 +3,31 @@ module Plugin
 import IO;
 import ParseTree;
 import util::Reflective;
-import util::IDEServices;
-import util::LanguageServer;
-import Relation;
-import Syntax; 
+import Syntax;
 
 PathConfig pcfg = getProjectPathConfig(|project://projecto2|);
 
-Language aluLang = language(pcfg, "ALU", "alu", "Plugin", "contribs");
-
-set[LanguageService] contribs() = {
-  parser(start[Module] (str program, loc src) {
-    return parse(#start[Module], program, src);
-  })
-};
-
-// Registra el lenguaje en VS Code
 void main() {
-  registerLanguage(aluLang);
+    println("========================================");
+    println("Registering ALU Language...");
+    println("========================================");
+    
+    registerLanguage(
+        language(
+            pcfg,
+            "ALU",
+            "alu",
+            "Plugin",
+            "aluParser"
+        )
+    );
+    
+    println("✓ ALU Language registered successfully!");
+    println("✓ You can now open .alu files");
+    println("✓ Syntax highlighting should work");
+    println("========================================");
+}
+
+Tree aluParser(str input, loc origin) {
+    return parse(#start[Module], input, origin);
 }
